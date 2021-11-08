@@ -3,12 +3,17 @@ import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 import personService from './services/persons'
+import Notification from './components/Notification'
 
 const App = () => {
   const [ persons, setPersons ] = useState([]) 
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ filteredPersons, setFilteredPersons ] = useState([])
+  const [ notification, setNotification ] = useState({
+    message : '',
+    type : ''
+  })
 
   const hook = () => {
     personService.getAll()
@@ -42,11 +47,47 @@ const App = () => {
         setNewName("")
         setNewNumber("")
       })
+      .then(() => {
+        setNotification({
+          message: `Created person ${newPerson.name} successfully`,
+          type:'success'
+        })
+        setTimeout(() => {
+          setNotification({message:'', type:''})
+        }, 5000)
+      })
+      .catch(() => {
+        setNotification({
+          message: `${newPerson.name} has already been removed from the server`,
+          type:'fail'
+        })
+        setTimeout(() => {
+          setNotification({message:'', type:''})
+        }, 5000)
+      })
     : personService.create(newPerson)
       .then(returnedPerson => {
         setPersons(persons.concat(returnedPerson))
         setNewName("")
         setNewNumber("")
+      })
+      .then(() => {
+        setNotification({
+          message: `Created person ${newPerson.name} successfully`,
+          type:'success'
+        })
+        setTimeout(() => {
+          setNotification({message:'', type:''})
+        }, 5000)
+      })
+      .catch(() => {
+        setNotification({
+          message: `${newPerson.name} has already been removed from the server`,
+          type:'fail'
+        })
+        setTimeout(() => {
+          setNotification({message:'', type:''})
+        }, 5000)
       })
   }
 
@@ -75,6 +116,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification notification={notification} />
       <Filter eventHandler={handleQueryChange} />
       <h2> add a new </h2>
       <PersonForm submitHandler={handleSubmission}
