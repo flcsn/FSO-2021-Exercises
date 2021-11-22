@@ -9,14 +9,18 @@
   "main": "index.js",
   "devDependencies": {
     "dotenv": "^10.0.0",
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.15",
+    "jest": "^27.3.1"
   },
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --verbose"
   },
   "author": "Frankie",
   "license": "MIT",
-  "description": ""
+  "description": "",
+  "jest": {
+    "testEnvironment": "node"
+  }
 }
