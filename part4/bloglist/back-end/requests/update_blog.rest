@@ -1,0 +1,9 @@
+PUT http://localhost:3003/api/blogs/619ef5d47851cb8a5569ff0e
+Content-Type: application/json
+
+{
+  "title": "We are rooting for you!",
+  "author": "Random Software Devs",
+  "url": "reddit.com",
+  "likes": 690
+}

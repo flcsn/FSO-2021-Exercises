@@ -2,8 +2,8 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-  "title": "We are rooting for you!",
-  "author": "Random Software Devs",
-  "url": "reddit.com",
-  "likes": 420
+  "title": "test",
+  "author": "test",
+  "url": "test",
+  "likes": 123
 }
