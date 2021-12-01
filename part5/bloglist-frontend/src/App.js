@@ -19,9 +19,15 @@ const App = () => {
   const blogFormVisibility = useRef()
   const blogFormValues = useRef()
 
+  const sortByLikes = (a, b) => {
+    if (a.likes > b.likes) return -1
+    if (a.likes < b.likes) return 1
+    return 0
+  }
+
   useEffect(() => {
     blogService.getAll().then(blogs =>
-      setBlogs( blogs )
+      setBlogs(blogs.sort(sortByLikes))
     )  
   }, [])
 
@@ -94,7 +100,8 @@ const App = () => {
     try {
       const result = await blogService.create(newBlog)
       console.log(result)
-      setBlogs(blogs.concat(newBlog))
+      const b = await blogService.getAll()
+      setBlogs(b.sort(sortByLikes))
       setNotification({
         message: `created new blog ${newBlog.title} successfully!`,
         type: 'success'
@@ -109,6 +116,56 @@ const App = () => {
       console.log(e)
     }
   }
+
+  const addLike = async (blog, event) => {
+    event.preventDefault()
+    const updatedBlog = { ...blog,  likes: blog.likes + 1 }
+
+    try {
+      const result = await blogService.update(updatedBlog)
+      console.log(result)
+      const b = await blogService.getAll()
+      setBlogs(b.sort(sortByLikes))
+      setNotification({
+        message: `updated blog ${updatedBlog.title} successfully!`,
+        type: 'success'
+      })
+      clearNotification()
+    } catch (e) {
+      setNotification({
+        message: `failed to update blog ${updatedBlog.title}`,
+        type: 'fail'
+      })
+      clearNotification()
+      console.log(e)
+    }
+  }
+
+  const removeBlog = async (blog, event) => {
+    event.preventDefault()
+    const result = window.confirm(`Remove blog ${blog.title}?`)
+    if (!result) return
+
+    try {
+      const result = await blogService.remove(blog)
+      console.log(result)
+      const b = await blogService.getAll()
+      setBlogs(b.sort(sortByLikes))
+      setNotification({
+        message: `removed blog ${blog.title} successfully!`,
+        type: 'success'
+      })
+      clearNotification()
+    } catch (e) {
+      setNotification({
+        message: `failed to remove blog ${blog.title}`,
+        type: 'fail'
+      })
+      clearNotification()
+      console.log(e)
+    }
+  }
+
 
   if (!user) {
     return (
@@ -135,7 +192,7 @@ const App = () => {
           <button onClick={handleLogout}>log out</button>
         </p>
       </div>
-      {blogs.map(blog => <Blog key={blog.id} blog={blog}/>)}
+      {blogs.map(blog => <Blog key={blog.id} blog={blog} addLike={event => addLike(blog, event)} removeBlog={event => removeBlog(blog, event)} user={user.username}/>)}
       <Togglable buttonLabel='create new form' ref={blogFormVisibility}>
         <BlogForm createNewBlog={createNewBlog} ref={blogFormValues}/>
       </Togglable>
