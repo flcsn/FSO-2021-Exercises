@@ -1,13 +1,14 @@
 import React, { useState, useImperativeHandle } from 'react'
+import PropTypes from 'prop-types'
 
-const BlogForm = React.forwardRef(({createNewBlog}, ref) => {
+const BlogForm = React.forwardRef(({ createNewBlog }, ref) => {
   const [blogTitle, setBlogTitle] = useState('')
   const [blogAuthor, setBlogAuthor] = useState('')
   const [blogUrl, setBlogUrl] = useState('')
 
-  const handleTitleChange = ({target}) => setBlogTitle(target.value)
-  const handleAuthorChange = ({target}) => setBlogAuthor(target.value)
-  const handleUrlChange = ({target}) => setBlogUrl(target.value)
+  const handleTitleChange = ({ target }) => setBlogTitle(target.value)
+  const handleAuthorChange = ({ target }) => setBlogAuthor(target.value)
+  const handleUrlChange = ({ target }) => setBlogUrl(target.value)
 
   useImperativeHandle(ref, () => {
     return { blogTitle, blogAuthor, blogUrl }
@@ -31,5 +32,11 @@ const BlogForm = React.forwardRef(({createNewBlog}, ref) => {
     </div>
   )
 })
+
+BlogForm.displayName = 'BlogForm'
+
+BlogForm.propTypes = {
+  createNewBlog: PropTypes.func.isRequired
+}
 
 export default BlogForm

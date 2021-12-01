@@ -28,7 +28,7 @@ const App = () => {
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs(blogs.sort(sortByLikes))
-    )  
+    )
   }, [])
 
   useEffect(() => {
@@ -48,7 +48,7 @@ const App = () => {
       })
     }, 5000)
   }
-  
+
   const handleLogin = async event => {
     try {
       event.preventDefault()
@@ -171,18 +171,18 @@ const App = () => {
     return (
       <div>
         <Notification notification={notification} />
-        <Login 
-          handleLogin={handleLogin} 
-          username={username} 
+        <Login
+          handleLogin={handleLogin}
+          username={username}
           password={password}
-          usernameChange={({ target }) => setUsername(target.value)} 
+          usernameChange={({ target }) => setUsername(target.value)}
           passwordChange={({ target }) => setPassword(target.value)}
         />
       </div>
     )
   }
 
-  return (    
+  return (
     <div>
       <Notification notification={notification} />
       <h2>blogs</h2>
@@ -196,7 +196,6 @@ const App = () => {
       <Togglable buttonLabel='create new form' ref={blogFormVisibility}>
         <BlogForm createNewBlog={createNewBlog} ref={blogFormValues}/>
       </Togglable>
-      
     </div>
   )
 }

@@ -26,7 +26,6 @@ const create = async newBlog => {
   const config = {
     headers: { Authorization: token }
   }
-console.log('token is', token)
 
   const response = await axios.post(blogsBaseURL, newBlog, config)
   return response.data
@@ -41,7 +40,6 @@ const remove = async blog => {
   const config = {
     headers: { Authorization: token }
   }
-  console.log('token is', token)
 
   const response = await axios.delete(`${blogsBaseURL}/${blog.id}`, config)
   return response.data
