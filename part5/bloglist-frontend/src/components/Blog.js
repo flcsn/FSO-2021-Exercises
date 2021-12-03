@@ -18,7 +18,7 @@ const Blog = ({ blog, addLike, removeBlog, user }) => {
       <Togglable buttonLabel='view details'>
         {blog.url}
         <br/>
-        {blog.likes} <button onClick={addLike}>like</button>
+        {blog.likes + ' like(s)'} <button id='likeButton' onClick={addLike}>like</button>
         <br/>
         {blog.user === null ? 'no creator' : blog.user.id}
         <br/>

@@ -193,7 +193,7 @@ const App = () => {
         </p>
       </div>
       {blogs.map(blog => <Blog key={blog.id} blog={blog} addLike={event => addLike(blog, event)} removeBlog={event => removeBlog(blog, event)} user={user.username}/>)}
-      <Togglable buttonLabel='create new form' ref={blogFormVisibility}>
+      <Togglable buttonLabel='create new blog' ref={blogFormVisibility}>
         <BlogForm createNewBlog={createNewBlog} ref={blogFormValues}/>
       </Togglable>
     </div>

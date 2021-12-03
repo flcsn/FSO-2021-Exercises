@@ -5,9 +5,9 @@ const Login = ({ handleLogin, username, password, usernameChange, passwordChange
     <div>
       <h2>log in to application</h2>
       <form onSubmit={handleLogin}>
-        <input type='text' name='username' value={username} onChange={usernameChange}/>
-        <input type='password' name='password' value={password} onChange={passwordChange}/>
-        <button type='submit'>submit</button>
+        <input id='usernameField' type='text' name='username' value={username} onChange={usernameChange}/>
+        <input id='passwordField' type='password' name='password' value={password} onChange={passwordChange}/>
+        <button id='loginButton' type='submit'>login</button>
       </form>
     </div>
   )
