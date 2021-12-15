@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { voteFor, initializeAnecdotes } from '../reducers/anecdoteReducer'
-import { clearNotification, setNotification } from '../reducers/notificationReducer'
-import anecdoteService from '../services/anecdotes'
+import { setNotification } from '../reducers/notificationReducer'
 
 const AnecdoteList = () => {
+  const dispatch = useDispatch()
+
   useEffect(() => {
-    anecdoteService.getAll()
-      .then(anecdotes => dispatch(initializeAnecdotes(anecdotes)))
+    dispatch(initializeAnecdotes())
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const state = useSelector(state => state)
@@ -15,15 +15,12 @@ const AnecdoteList = () => {
   const filter = state.filter
   console.log(anecdotes)
   const filteredAnecdotes = anecdotes.filter(a => a.content.toLowerCase().includes(filter))
-  const dispatch = useDispatch()
 
   const vote = (id) => {
-    console.log('voted for', id)
-    dispatch(voteFor(id))
-
     const anecdote = anecdotes.find(a => a.id === id)
-    dispatch(setNotification(`Successfully voted for anecdote: '${anecdote.content}'`))
-    setTimeout(() => dispatch(clearNotification()), 5000)
+    console.log('voted for', anecdote.content)
+    dispatch(voteFor(anecdote))
+    dispatch(setNotification(`Successfully voted for anecdote: '${anecdote.content}'`, 5))
   }
 
   return (
