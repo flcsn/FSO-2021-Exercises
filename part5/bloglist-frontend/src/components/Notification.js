@@ -5,13 +5,13 @@ const Notification = ({ notification }) => {
   if (notification.message === '')
     return null
 
-  if (notification.type === 'success') {
+  if (notification.type === 'SUCCESS') {
     return (
       <div className="success">
         {notification.message}
       </div>
     )
-  } else if (notification.type === 'fail') {
+  } else if (notification.type === 'FAILURE') {
     return (
       <div className="error">
         {notification.message}

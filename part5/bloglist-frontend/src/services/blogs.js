@@ -1,6 +1,6 @@
 import axios from 'axios'
-const blogsBaseURL = '/api/blogs'
-const loginBaseURL = '/api/login'
+const blogsBaseURL = 'http://localhost:3003/api/blogs'
+const loginBaseURL = 'http://localhost:3003/api/login'
 
 let token = null
 

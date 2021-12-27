@@ -48,6 +48,7 @@ describe('Blog app', function() {
       cy.get('#submitButton').click()
 
       cy.get('.success').contains('created new blog test blog successfully!')
+      cy.wait(3000)
       cy.contains('test blog')
     })
 
@@ -96,15 +97,15 @@ describe('Blog app', function() {
 
         cy.get('#likeButton').click()
         cy.contains('hide').click()
-
         cy.get('.success').contains('updated blog test blog 2 successfully!')
+        cy.wait(1000)
       })
 
       it('both blogs are visible', function() {
         cy.get('div.blogDefaultInfo').should('have.length', 2)
       })
 
-      it.only('the blogs are sorted according to the number of likes', function() {
+      it('the blogs are sorted according to the number of likes', function() {
         cy.get('div.blogDefaultInfo:first')
           .contains('view details')
           .click()
