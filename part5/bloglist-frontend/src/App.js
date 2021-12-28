@@ -4,10 +4,12 @@ import Login from './components/Login'
 import Notification from './components/Notification'
 import BlogForm from './components/BlogForm'
 import Togglable from './components/Togglable'
+import Users from './components/Users'
 import { useSelector, useDispatch } from 'react-redux'
 import { initializeBlogs, createBlog, addLike as like, deleteBlog } from './reducers/blogReducer'
 import { login, logout, saveLocalUser } from './reducers/userReducer'
 import { useField } from './hooks/index'
+import { BrowserRouter as Router } from 'react-router-dom'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -34,7 +36,6 @@ const App = () => {
 
   const blogFormVisibility = useRef()
   const blogFormValues = useRef()
-
 
   const handleLogin = async event => {
     event.preventDefault()
@@ -110,7 +111,7 @@ const App = () => {
   return (
     <div>
       <Notification notification={notification} />
-      <h2>blogs</h2>
+      <h2>Blogs</h2>
       <div>
         <p>
           {user.name} logged in
@@ -121,6 +122,9 @@ const App = () => {
       <Togglable buttonLabel='create new blog' ref={blogFormVisibility}>
         <BlogForm createNewBlog={createNewBlog} ref={blogFormValues}/>
       </Togglable>
+      <Router>
+        <Users />
+      </Router>
     </div>
   )
 }

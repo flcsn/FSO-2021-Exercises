@@ -43,7 +43,6 @@ export const setBlogs = (blogs) => {
 }
 
 export const createBlog = (blog) => {
-  console.log('blog data is', blog)
   return async dispatch => {
     let newBlog = null
     try {
@@ -53,9 +52,7 @@ export const createBlog = (blog) => {
       dispatch(notificationFail(e.message))
       return
     }
-    console.log('created blog is ', newBlog)
     const newBlogs = await blogService.getAll()
-    console.log('new blogs are', newBlogs)
     dispatch({
       type: 'SET_BLOGS',
       data: newBlogs
