@@ -26,7 +26,7 @@ const Users = () => {
         <Route path='/users/:id'>
           <UserInfo user={user} />
         </Route>
-        <Route path='/'>
+        <Route path='/users'>
           <UserList users={users}/>
         </Route>
       </Switch>

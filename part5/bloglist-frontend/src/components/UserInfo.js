@@ -14,7 +14,7 @@ const UserInfo = ({ user }) => {
           <li key={blog.id}>{blog.title}</li>
         )}
       </ul>
-      <Link href='#' to='/'>return</Link>
+      <Link href='#' to='/users'>return</Link>
     </div>
   )
 }
