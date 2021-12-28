@@ -7,7 +7,7 @@ import Togglable from './components/Togglable'
 import Users from './components/Users'
 import NavBar from './components/NavBar'
 import { useSelector, useDispatch } from 'react-redux'
-import { initializeBlogs, createBlog, addLike as like, deleteBlog } from './reducers/blogReducer'
+import { initializeBlogs, createBlog, addLike as like, deleteBlog, addComment as comment } from './reducers/blogReducer'
 import { login, logout, saveLocalUser } from './reducers/userReducer'
 import { useField } from './hooks/index'
 import {
@@ -84,6 +84,16 @@ const App = () => {
     }
   }
 
+  const addComment = async (blog, event) => {
+    event.preventDefault()
+    const c = event.target.comment.value
+    try {
+      dispatch(comment(blog, c))
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   const removeBlog = async (blog, event) => {
     event.preventDefault()
     const result = window.confirm(`Remove blog ${blog.title}?`)
@@ -129,6 +139,7 @@ const App = () => {
               addLike={addLike}
               removeBlog={removeBlog}
               user={user}
+              addComment={addComment}
             />
           </Route>
 

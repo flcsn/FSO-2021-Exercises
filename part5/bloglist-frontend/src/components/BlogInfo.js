@@ -1,8 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import CommentForm from './CommentForm'
+import CommentList from './CommentList'
 
 const BlogInfo = ({ blog, props }) => {
-  const { addLike, removeBlog, user } = props
+  const { addLike, removeBlog, user, addComment } = props
 
   return (
     <div className='blogDefaultInfo'>
@@ -14,10 +16,12 @@ const BlogInfo = ({ blog, props }) => {
       <br/>
       {blog.user === null ? 'no creator' : blog.user.id}
       <br/>
-      { user === blog.user.username
-        ? <button onClick={removeBlog}>remove</button>
+      { user.username === blog.user.username
+        ? <button onClick={(event) => removeBlog(blog, event)}>remove</button>
         : null }
       <Link href='#' to='/blogs'>return</Link>
+      <CommentForm blog={blog} addComment={addComment} />
+      <CommentList blog={blog} />
     </div>
   )
 }

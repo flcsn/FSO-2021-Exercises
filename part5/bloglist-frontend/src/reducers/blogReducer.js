@@ -84,6 +84,24 @@ export const addLike = (blog) => {
   }
 }
 
+export const addComment = (blog, comment) => {
+  return async dispatch => {
+    try {
+      await blogService.comment(blog, comment)
+    } catch (e) {
+      console.log(e)
+      dispatch(notificationFail(e.message))
+      return
+    }
+    const updatedBlogs = await blogService.getAll()
+    dispatch({
+      type: 'SET_BLOGS',
+      data: updatedBlogs
+    })
+    dispatch(notificationSuccess('successfully added a comment'))
+  }
+}
+
 export const deleteBlog = (blog) => {
   return dispatch => {
     blogService.remove(blog)

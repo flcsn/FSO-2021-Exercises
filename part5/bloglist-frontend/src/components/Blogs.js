@@ -7,13 +7,10 @@ import {
 } from 'react-router-dom'
 
 const Blogs = (props) => {
-  console.log(props)
   const { blogs, ...others } = props
-  console.log('blogs is', blogs)
 
   if (blogs.length === 0)
     return null
-  console.log('other props are', others)
 
   const match = useRouteMatch('/blogs/:id')
   const blog = match
