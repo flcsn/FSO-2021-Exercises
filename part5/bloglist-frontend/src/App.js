@@ -123,7 +123,7 @@ const App = () => {
   }
 
   return (
-    <div>
+    <div className='container'>
       <Notification notification={notification} />
       <Router>
         <NavBar user={user} handleLogout={handleLogout}/>

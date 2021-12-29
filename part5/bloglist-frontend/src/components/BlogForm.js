@@ -1,5 +1,6 @@
 import React, { useState, useImperativeHandle } from 'react'
 import PropTypes from 'prop-types'
+import { Form, Button } from 'react-bootstrap'
 
 const BlogForm = React.forwardRef(({ createNewBlog }, ref) => {
   const [blogTitle, setBlogTitle] = useState('')
@@ -17,18 +18,35 @@ const BlogForm = React.forwardRef(({ createNewBlog }, ref) => {
   return (
     <div>
       <h2>create new</h2>
-      <form onSubmit={createNewBlog}>
-        <label>title: </label>
-        <input id='titleField' type='text' name='title' value={blogTitle} onChange={handleTitleChange}/>
-        <br/>
-        <label>author: </label>
-        <input id='authorField' type='text' name='author' value={blogAuthor} onChange={handleAuthorChange}/>
-        <br/>
-        <label>url: </label>
-        <input id='urlField' type='text' name='url' value ={blogUrl} onChange={handleUrlChange}/>
-        <br/>
-        <button id='submitButton' type='submit'>submit</button>
-      </form>
+      <Form onSubmit={createNewBlog}>
+        <Form.Group>
+          <Form.Label>Title: </Form.Label>
+          <Form.Control
+            id='titleField'
+            type='text'
+            name='title'
+            value={blogTitle}
+            onChange={handleTitleChange}
+          />
+          <Form.Label>Author: </Form.Label>
+          <Form.Control
+            id='authorField'
+            type='text'
+            name='author'
+            value={blogAuthor}
+            onChange={handleAuthorChange}
+          />
+          <Form.Label>URL: </Form.Label>
+          <Form.Control
+            id='urlField'
+            type='text'
+            name='url'
+            value ={blogUrl}
+            onChange={handleUrlChange}
+          />
+          <Button variant='primary' id='submitButton' type='submit'> Create blog</Button>
+        </Form.Group>
+      </Form>
     </div>
   )
 })

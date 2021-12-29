@@ -1,5 +1,6 @@
 import React from 'react'
 import '../index.css'
+import { Alert } from 'react-bootstrap'
 
 const Notification = ({ notification }) => {
   if (notification.message === '')
@@ -7,14 +8,18 @@ const Notification = ({ notification }) => {
 
   if (notification.type === 'SUCCESS') {
     return (
-      <div className="success">
-        {notification.message}
+      <div className="container">
+        <Alert variant='success'>
+          {notification.message}
+        </Alert>
       </div>
     )
   } else if (notification.type === 'FAILURE') {
     return (
-      <div className="error">
-        {notification.message}
+      <div className="container">
+        <Alert variant='danger'>
+          {notification.message}
+        </Alert>
       </div>
     )
   }
