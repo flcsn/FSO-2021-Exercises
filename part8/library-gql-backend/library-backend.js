@@ -1,5 +1,6 @@
 const { ApolloServer, gql } = require('apollo-server')
 const { ApolloServerPluginLandingPageGraphQLPlayground } = require('apollo-server-core')
+const { v1: uuid } = require('uuid')
 
 let authors = [
   {
@@ -25,6 +26,10 @@ let authors = [
     name: 'Sandi Metz', // birthyear not known
     id: "afa5b6f3-344d-11e9-a414-719c6709cf3e",
   },
+  {
+    "name": "Reijo Mäki",
+    "id": "09f65ef0-6ee5-11ec-b20f-29accbe7ddd5"
+  }
 ]
 
 /*
@@ -89,7 +94,7 @@ const typeDefs = gql`
   type Author {
     name: String!
     id: ID!
-    birthyear: Int!
+    born: Int
     bookCount: Int!
   }
 
@@ -106,6 +111,19 @@ const typeDefs = gql`
     authorCount: Int!
     allBooks(author: String, genre: String): [Book!]!
     allAuthors: [Author!]!
+  }
+
+  type Mutation {
+    addBook(
+      title: String!
+      author: String!
+      published: Int!
+      genres: [String!]!
+    ): Book
+    editAuthor(
+      name: String!
+      setBornTo: Int!
+    ): Author
   }
 `
 
@@ -132,6 +150,42 @@ const resolvers = {
     bookCount: (root) => {
       const authoredBooks = books.filter(book => book.author === root.name)
       return authoredBooks.length
+    }
+  },
+  Mutation: {
+    addBook: (root, args) => {
+      const authorNames = authors.map(author => author.name)
+      if (!authorNames.includes(args.author)) {
+        const newAuthor = {
+          name: args.author,
+          id: uuid()
+        }
+        authors = authors.concat(newAuthor)
+      }
+
+      const newBook = { ...args, id: uuid() }
+      books = books.concat(newBook)
+      return newBook
+    },
+    editAuthor: (root, args) => {
+      const authorName = args.name
+      const newBirthYear = args.setBornTo
+
+      const author = authors.find(a => a.name === authorName)
+      if (!author)
+        return null
+
+      const editedAuthor = {
+        ...author,
+        born: newBirthYear
+      }
+
+      authors = authors.map(a => a.name === authorName
+        ? editedAuthor
+        : a
+      )
+
+      return editedAuthor
     }
   }
 }
