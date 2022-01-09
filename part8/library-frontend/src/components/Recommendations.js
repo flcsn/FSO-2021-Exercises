@@ -1,18 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { CURRENT_USER, GET_BOOKS_BY_GENRE } from '../queries'
-import { useLazyQuery, useQuery } from '@apollo/client'
+import { GET_BOOKS_BY_GENRE } from '../queries'
+import { useLazyQuery } from '@apollo/client'
 
-const Recommendations = ({ show }) => {
-  const [ user, setUser ] = useState(null)
+const Recommendations = ({ show, user }) => {
   const [ recommendations, setRecommendations ] = useState([])
-  
-  const userQuery = useQuery(CURRENT_USER)
   const [getBook, result] = useLazyQuery(GET_BOOKS_BY_GENRE)
-
-  useEffect(() => {
-    if (userQuery.data)
-      setUser(userQuery.data.me)
-  }, [userQuery])
 
   useEffect(() => {
     if (user)
@@ -27,7 +19,7 @@ const Recommendations = ({ show }) => {
   if (!show)
     return null
 
-  if (userQuery.loading || !recommendations) {
+  if (!recommendations) {
     return (
       <div>
         generating recommendations...

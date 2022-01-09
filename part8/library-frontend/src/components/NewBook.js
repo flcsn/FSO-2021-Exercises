@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useMutation } from '@apollo/client'
 import { ADD_BOOK, ALL_AUTHORS, ALL_BOOKS, GET_BOOKS_BY_GENRE} from '../queries'
 
-const NewBook = ({ show }) => {
+const NewBook = ({ show, user }) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [published, setPublished] = useState('')
@@ -14,11 +14,25 @@ const NewBook = ({ show }) => {
       query: ALL_AUTHORS
     }, {
       query: ALL_BOOKS
-    }, {
-      query: GET_BOOKS_BY_GENRE
     }],
     onError: (error) => {
       console.log(JSON.stringify(error))
+    },
+    update: (store, response) => {
+      const dataInStore = store.readQuery({ 
+        query: GET_BOOKS_BY_GENRE, 
+        variables: { genre: user.favoriteGenre } 
+      })
+      if (response.data.addBook.genres.includes(user.favoriteGenre)) {
+        store.writeQuery({
+          query: GET_BOOKS_BY_GENRE,
+          variables: { genre: user.favoriteGenre },
+          data: {
+            ...dataInStore,
+            allBooks: [ ...dataInStore.allBooks, response.data.addBook ]
+          }
+        })
+      }
     }
   })
 

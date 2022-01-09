@@ -5,17 +5,19 @@ import NewBook from './components/NewBook'
 import Login from './components/Login'
 import Recommendations from './components/Recommendations'
 
-import { LOGIN } from './queries'
-import { useApolloClient, useMutation } from '@apollo/client'
+import { CURRENT_USER, LOGIN } from './queries'
+import { useApolloClient, useLazyQuery, useMutation } from '@apollo/client'
 
 const App = () => {
   const [page, setPage] = useState('authors')
   const [token, setToken] = useState(null)
+  const [user, setUser] = useState(null)
   const client = useApolloClient()
 
   const [login, result] = useMutation(LOGIN, {
     onError: (error) => console.log(error.graphQLErrors[0].message)
   })
+  const [getUser, userResult] = useLazyQuery(CURRENT_USER)
 
   const handleLogin = (username, password) => {
     console.log('logging in with', username, password)
@@ -32,17 +34,29 @@ const App = () => {
 
   useEffect(() => {
     const t = localStorage.getItem('library-user-token')
-    if (t)
+    if (t) {
       setToken(t)
-  }, [])
+      getUser()
+    }
+  }, []) // eslint-disable-line
 
   useEffect(() => {
     if (result.data) {
       const token = result.data.login.value
       setToken(token)
       window.localStorage.setItem('library-user-token', token)
+      console.log('login successful')
+      getUser()
     }
-  }, [result.data])
+  }, [result.data]) // eslint-disable-line
+
+  useEffect(() => {
+    if (userResult.data) {
+      console.log('userResult.data', userResult.data)
+      setUser(userResult.data.me)
+      console.log('user is', user)
+    }
+  }, [userResult]) // eslint-disable-line
 
   return (
     <div>
@@ -59,8 +73,8 @@ const App = () => {
 
       <Authors show={page === 'authors'} />
       <Books show={page === 'books'} />
-      <NewBook show={page === 'add'} />
-      <Recommendations show={page === 'recommendations'}/>
+      <NewBook show={page === 'add'} user={user} />
+      <Recommendations show={page === 'recommendations'} user={user}/>
       {!token && <Login show={page === 'login'} handleLogin={handleLogin}/>}
     </div>
   )
