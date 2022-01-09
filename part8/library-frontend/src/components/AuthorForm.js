@@ -32,7 +32,8 @@ const AuthorForm = ({ authors }) => {
       <h2>Set birthyear</h2>
       <form onSubmit={updateAuthor}>
         <label>name</label>
-        <select onChange={({ target }) => setName(target.value)}>
+        <select defaultValue='Select an author' onChange={({ target }) => setName(target.value)}>
+          <option disabled hidden>Select an author</option>
           {authors.map(a => 
             <option key={a.name} value={a.name}>{a.name}</option>
           )}
