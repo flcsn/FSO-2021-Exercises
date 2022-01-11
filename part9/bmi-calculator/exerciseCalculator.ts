@@ -11,8 +11,8 @@ interface Result {
 const calculateExercises = (exerciseHours: Array<number>, target: number): Result => {
   const periodLength = exerciseHours.length;
   const trainingDays = exerciseHours.filter(h => h > 0).length;
-  const trainingHours = exerciseHours.reduce((initial: number, current:number) => initial + current)
-  const averageTrainingHours = trainingHours / periodLength
+  const trainingHours = exerciseHours.reduce((initial: number, current:number) => initial + current);
+  const averageTrainingHours = trainingHours / periodLength;
 
   let success; 
   let rating; 
@@ -40,12 +40,15 @@ const calculateExercises = (exerciseHours: Array<number>, target: number): Resul
     ratingDescription,
     target,
     average: averageTrainingHours
-  }
+  };
 
-  return result
-}
+  return result;
+};
+/*
 
-const exerciseHours = JSON.parse(process.argv[3])
-const target = Number(process.argv[2])
+const exerciseHours = JSON.parse(process.argv[3]) as Array<number>;
+const target = Number(process.argv[2]);
 
-console.log(calculateExercises(exerciseHours, target))
+console.log(calculateExercises(exerciseHours, target));
+*/
+export = calculateExercises;

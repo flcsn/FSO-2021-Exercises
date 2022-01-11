@@ -8,12 +8,12 @@ const calculateBmi = (heightInCm: number, weightInKg: number) => {
   else if (bmi >= 25 && bmi < 30)
     return 'Overweight (not healthy weight)';
   else
-    return 'Obese (not healthy weight)'
-}
-
+    return 'Obese (not healthy weight)';
+};
+/*
 const heightInCm = Number(process.argv[2]);
 const weightInKg = Number(process.argv[3]);
 
 console.log(calculateBmi(heightInCm, weightInKg));
-
+*/
 export = calculateBmi;
